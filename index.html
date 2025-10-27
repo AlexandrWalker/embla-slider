@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carousel Slider</title>
+  <style>
+    :root {
+      --background: #ffffff;
+      --foreground: #000000;
+      --muted-foreground: #666666;
+      --card: rgba(255, 255, 255, 0.8);
+      --gradient-card: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.5);
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      background: var(--background);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 8px 0;
+    }
+
+    .embla {
+      overflow: hidden;
+    }
+
+    .embla__viewport {
+      cursor: grab;
+    }
+
+    .embla__viewport.is-dragging {
+      cursor: grabbing;
+    }
+
+    .embla__container {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .embla__slide {
+      flex: 0 0 100%;
+      min-width: 0;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+
+    @media (min-width: 640px) {
+      .embla__slide {
+        flex: 0 0 50%;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .embla__slide {
+        flex: 0 0 33.333%;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .embla__slide {
+        flex: 0 0 25%;
+      }
+    }
+
+    .slide-image-container {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .slide-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 600ms ease;
+      display: block;
+    }
+
+    .prev-btn,
+    .next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--card);
+      backdrop-filter: blur(4px);
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      z-index: 10;
+      transition: transform 150ms ease;
+    }
+
+    .prev-btn:hover,
+    .next-btn:hover {
+      transform: translateY(-50%) scale(1.03);
+    }
+
+    .prev-btn {
+      left: 12px;
+    }
+
+    .next-btn {
+      right: 12px;
+    }
+
+    .btn-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .embla__slide img {
+      user-select: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="carousel-container">
+    <div class="embla" id="embla">
+      <div class="embla__container" id="embla-container">
+
+        <div class="embla__slide">
+          <div class="slide-content">
+            <div class="slide-image-container">
+              <img src="images/entert/entert-1.png" alt="Entert 1" class="slide-image" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <div class="embla__slide">
+          <div class="slide-content">
+            <div class="slide-image-container">
+              <img src="images/entert/entert-2.png" alt="Entert 2" class="slide-image" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <div class="embla__slide">
+          <div class="slide-content">
+            <div class="slide-image-container">
+              <img src="images/entert/entert-3.png" alt="Entert 3" class="slide-image" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <div class="embla__slide">
+          <div class="slide-content">
+            <div class="slide-image-container">
+              <img src="images/entert/entert-4.png" alt="Entert 4" class="slide-image" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <!-- Копии слайдов -->
+        <div class="embla__slide">
+          <div class="slide-content">
+            <div class="slide-image-container">
+              <img src="images/entert/entert-1.png" alt="Entert 1 - copy" class="slide-image" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <div class="embla__slide">
+          <div class="slide-content">
+            <div class="slide-image-container">
+              <img src="images/entert/entert-2.png" alt="Entert 2 - copy" class="slide-image" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <div class="embla__slide">
+          <div class="slide-content">
+            <div class="slide-image-container">
+              <img src="images/entert/entert-3.png" alt="Entert 3 - copy" class="slide-image" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <div class="embla__slide">
+          <div class="slide-content">
+            <div class="slide-image-container">
+              <img src="images/entert/entert-4.png" alt="Entert 4 - copy" class="slide-image" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Кнопки навигации слайдера -->
+    <button class="prev-btn" id="prev-btn" aria-label="Previous slide">
+      <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+    <button class="next-btn" id="next-btn" aria-label="Next slide">
+      <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Библиотека -->
+  <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+
+  <!-- Скрипт -->
+  <script>
+    const emblaNode = document.getElementById('embla');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    const emblaApi = EmblaCarousel(emblaNode, {
+      loop: true,
+      align: 'start',
+      slidesToScroll: 1,
+      dragFree: true,
+      containScroll: 'trimSnaps',
+    });
+
+    prevBtn.addEventListener('click', () => emblaApi && emblaApi.scrollPrev());
+    nextBtn.addEventListener('click', () => emblaApi && emblaApi.scrollNext());
+
+    if (emblaApi) {
+      emblaApi.on('pointerDown', () => emblaNode.classList.add('is-dragging'));
+      emblaApi.on('pointerUp', () => emblaNode.classList.remove('is-dragging'));
+    };
+
+    emblaApi.selectedScrollSnap();
+
+    window.reinitEmbla = () => emblaApi && emblaApi.reInit();
+  </script>
+</body>
+
+</html>
